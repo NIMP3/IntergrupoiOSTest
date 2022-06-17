@@ -1,0 +1,26 @@
+PODS:
+  - KeychainSwift (20.0.0)
+  - Realm (10.25.2):
+    - Realm/Headers (= 10.25.2)
+  - Realm/Headers (10.25.2)
+  - RealmSwift (10.25.2):
+    - Realm (= 10.25.2)
+
+DEPENDENCIES:
+  - KeychainSwift (~> 20.0.0)
+  - RealmSwift (= 10.25.2)
+
+SPEC REPOS:
+  trunk:
+    - KeychainSwift
+    - Realm
+    - RealmSwift
+
+SPEC CHECKSUMS:
+  KeychainSwift: 0ce6a4d13f7228054d1a71bb1b500448fb2ab837
+  Realm: 978303663d0509166498f423d112e5ee97d4c91b
+  RealmSwift: a0c30c1efc49e928a0a6f8fb141bb2629616d79b
+
+PODFILE CHECKSUM: 39b695509b85246b72b133fd6d374d44547b80cc
+
+COCOAPODS: 1.11.3
