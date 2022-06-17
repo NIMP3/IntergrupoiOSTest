@@ -43,5 +43,5 @@ protocol InteractorToPresenterCountryProtocol {
 
 protocol PresenterToRouterCountryProtocol {
     static func createCountryModule(_ ref: CountryListViewController)
-    func pushToMap(on view: PresenterToViewCountryProtocol)
+    func pushToMap(on view: PresenterToViewCountryProtocol, _ countryName: String)
 }

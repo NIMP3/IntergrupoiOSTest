@@ -18,9 +18,7 @@ class CountryRouter: PresenterToRouterCountryProtocol {
         ref.presenter?.interactor?.presenter = presenter
     }
     
-    func pushToMap(on view: PresenterToViewCountryProtocol) {
-        
+    func pushToMap(on view: PresenterToViewCountryProtocol, _ countryName: String) {
+        (view as! CountryListViewController).self.performSegue(withIdentifier: "showMap", sender: countryName)
     }
-    
-    
 }

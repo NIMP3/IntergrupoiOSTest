@@ -53,13 +53,22 @@ extension CountryListViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         if let country = countries?[indexPath.row] {
-            cell.countryNameLabel.text = country.name
+            cell.loadData(country) {
+                self.presenter?.router?.pushToMap(on: self, country.name)
+            }
         }
         
         return cell
     }
-    
-    
 }
 
-
+extension CountryListViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showMap",
+            let mapViewController = segue.destination as? CountryMapViewController,
+            let countryName = sender as? String {
+            
+            mapViewController.countryName = countryName
+        }
+    }
+}
