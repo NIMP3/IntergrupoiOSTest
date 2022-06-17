@@ -12,8 +12,10 @@ class CountryListViewController: UIViewController {
     @IBOutlet weak var countriesTableView: UITableView!
     
     var presenter: ViewToPresenterCountryProtocol?
-    var countries: [Country]?
+    var countries: [Country] = []
+    var filteredList: [Country] = []
     private let cellIdentifier = "countryCell"
+    private let searchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,9 @@ class CountryListViewController: UIViewController {
     private func setupUI() {
         countriesTableView.dataSource = self
         countriesTableView.delegate = self
+        
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
     }
 }
 
@@ -42,9 +47,18 @@ extension CountryListViewController: PresenterToViewCountryProtocol {
     func showMessage(message: Message) {}
 }
 
+extension CountryListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        filteredList = countries.compactMap({ $0 }).filter ({
+            $0.name.lowercased().contains(text.lowercased())})
+        countriesTableView.reloadData()
+    }
+}
+
 extension CountryListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countries?.count ?? 0
+        return searchController.isActive ? filteredList.count : countries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,12 +66,13 @@ extension CountryListViewController: UITableViewDelegate, UITableViewDataSource 
             return CountryTableViewCell()
         }
         
-        if let country = countries?[indexPath.row] {
+        if (searchController.isActive ? (!filteredList.isEmpty) : (!countries.isEmpty)) {
+            let country = searchController.isActive ? filteredList[indexPath.row] : countries[indexPath.row]
             cell.loadData(country) {
                 self.presenter?.router?.pushToMap(on: self, country.name)
             }
         }
-        
+
         return cell
     }
 }
